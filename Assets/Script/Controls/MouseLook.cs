@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -6,6 +7,7 @@ public class MouseLook : MonoBehaviour
     [SerializeField] private Transform playerCamera;
     [SerializeField] private float sensitivityX = 8f;
     [SerializeField] private float sensitivityY = 8f;
+    [SerializeField] private GameObject Crosshair;
     private float mouseX;
     private float mouseY;
     private bool isPaused = false;
@@ -18,6 +20,9 @@ public class MouseLook : MonoBehaviour
         GameEvents.OnGameResumed += Resume;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        //Crosshair.SetActive(true);
+        //playerCamera.localRotation = Quaternion.Euler(0f, 0f, 0f);
+        StartCoroutine(ShowCrosshair());
     }
 
     private void OnDestroy()
@@ -67,5 +72,13 @@ public class MouseLook : MonoBehaviour
     private void Resume()
     {
         isPaused = false;
+    }
+
+    private IEnumerator ShowCrosshair()
+    {
+        Crosshair.SetActive(false);
+        yield return new WaitForSeconds(1f);
+        Crosshair.SetActive(true);
+        playerCamera.localRotation = Quaternion.Euler(0f, 0f, 0f);
     }
 }
