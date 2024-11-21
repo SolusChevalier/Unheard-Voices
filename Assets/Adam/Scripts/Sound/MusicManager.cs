@@ -8,11 +8,12 @@ public class MusicManager : MonoBehaviour
 {
     #region FIELDS
 
+    public static MusicManager Instance;
     public AudioClip mainMenuMusic;
     public AudioClip gameSceneMusic;
+    public AudioClip Level1Music;
     private AudioSource audioSource;
     public AudioClip deathMusic;
-    public AudioClip victoryMusic;
 
     #endregion FIELDS
 
@@ -20,9 +21,19 @@ public class MusicManager : MonoBehaviour
 
     private void Awake()
     {
-        DontDestroyOnLoad(gameObject);
+        // Singleton pattern
+        if (Instance == null)
+        {
+            Instance = this;
+            SceneManager.sceneLoaded += OnSceneLoaded;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
         audioSource = GetComponent<AudioSource>();
-        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     #endregion UNITY METHODS
@@ -33,11 +44,15 @@ public class MusicManager : MonoBehaviour
     {
         switch (scene.name)
         {
-            case "StartMenu":
+            case "MainMenu":
                 PlayMusic(mainMenuMusic);
                 break;
 
             case "Game":
+                PlayMusic(gameSceneMusic);
+                break;
+
+            case "Level 1":
                 PlayMusic(gameSceneMusic);
                 break;
 

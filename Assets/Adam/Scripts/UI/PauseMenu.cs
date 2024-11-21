@@ -38,7 +38,7 @@ public class PauseMenu : MonoBehaviour
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
         isPaused = false;
-        EventManager.OnGameResumed?.Invoke();
+        GameEvents.OnGameResumed?.Invoke();
     }
 
     public void Pause()
@@ -46,7 +46,7 @@ public class PauseMenu : MonoBehaviour
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
         isPaused = true;
-        EventManager.OnGamePaused?.Invoke();
+        GameEvents.OnGamePaused?.Invoke();
     }
 
     public void LoadMenu()
